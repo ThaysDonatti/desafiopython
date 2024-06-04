@@ -70,19 +70,19 @@ def entrar():
         session['tipo_usuario'] = usuario.tipo
         return jsonify({'mensagem': 'Login realizado com sucesso'}), 200
 
-    return jsonify({'mensagem': 'Credenciais inválidas'}), 401
+    return jsonify({'mensagem': 'Informações inválidas'}), 401
 
 @app.route('/sair', methods=['POST'])
 def sair():
     session.pop('cpf_usuario', None)
     session.pop('tipo_usuario', None)
-    return jsonify({'mensagem': 'Logout realizado com sucesso'}), 200
+    return jsonify({'mensagem': 'Logout realizado'}), 200
 
 def login_requerido(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'cpf_usuario' not in session:
-            return jsonify({'mensagem': 'Login requerido'}), 401
+            return jsonify({'mensagem': 'Faça o Login'}), 401
         return f(*args, **kwargs)
     return decorated_function
 
@@ -97,7 +97,7 @@ def obter_dividas():
 @login_requerido
 def adicionar_divida():
     if session.get('tipo_usuario') != 'admin':
-        return jsonify({'mensagem': 'Acesso de administrador requerido'}), 403
+        return jsonify({'mensagem': 'Necessário acesso de administrador'}), 403
 
     data = request.get_json()
     valor = data['valor']
@@ -108,7 +108,7 @@ def adicionar_divida():
     db.session.add(nova_divida)
     db.session.commit()
 
-    return jsonify({'mensagem': 'Dívida adicionada com sucesso'}), 201
+    return jsonify({'mensagem': 'Dívida adicionada'}), 201
 
 @app.route('/score', methods=['GET'])
 @login_requerido
