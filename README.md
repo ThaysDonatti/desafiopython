@@ -16,7 +16,7 @@ Sistema de autenticação e gerenciamento de dívidas
     cd desafiopython
 
 3. Criação do ambiente virtual e ativação:
-    python3 -m venv venv
+    python3 -m venv venv /
     source venv/Scripts/activate
 
 4. Dependências:
