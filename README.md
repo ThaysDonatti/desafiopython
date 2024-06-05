@@ -13,7 +13,7 @@ Sistema de autenticação e gerenciamento de dívidas
     git clone https://github.com/ThaysDonatti/desafiopython
 
 2. Navegar até o diretorio:
-    cd nome-do-repositorio
+    cd desafiopython
 
 3. Criação do ambiente virtual e ativação:
     python3 -m venv venv
