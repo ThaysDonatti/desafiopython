@@ -19,14 +19,14 @@ class Usuario(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     nascimento = db.Column(db.String(10), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    senha_hash = db.Column(db.String(128), nullable=False)
-    tipo = db.Column(db.String(10), nullable=False)  # normal or admin
+    senha_crip = db.Column(db.String(128), nullable=False)
+    tipo = db.Column(db.String(10), nullable=False)
 
     def set_senha(self, senha):
-        self.senha_hash = generate_password_hash(senha)
+        self.senha_crip = generate_password_hash(senha)
 
     def check_senha(self, senha):
-        return check_password_hash(self.senha_hash, senha)
+        return check_password_hash(self.senha_crip, senha)
 
 class Divida(db.Model):
     __tablename__ = 'divida'
@@ -116,8 +116,8 @@ def obter_score():
     cpf_usuario = session['cpf_usuario']
     dividas = Divida.query.filter_by(cpf_usuario=cpf_usuario).all()
     if not dividas:
-        return jsonify({'score': 1000}), 200  # Sem dívidas significa pontuação perfeita
-
+        return jsonify({'score': 1000}), 200
+    
     valor_medio_dividas = sum(divida.valor for divida in dividas) / len(dividas)
     score = 1000 * math.exp(-math.sqrt(valor_medio_dividas))
     return jsonify({'score': score}), 200
